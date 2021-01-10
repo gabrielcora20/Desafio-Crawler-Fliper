@@ -2,9 +2,10 @@
   "name": "desafio-crawler-fliper",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,14 @@
   },
   "homepage": "https://github.com/gabrielcora20/Desafio-Crawler-Fliper#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "config": "^3.3.3",
+    "consign": "^0.1.6",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.11",
+    "node-cron": "^2.0.3",
     "puppeteer": "^5.5.0"
   }
 }

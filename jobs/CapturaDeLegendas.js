@@ -1,48 +1,20 @@
-// const { watch } = require('fs');
+const _mongoDbObjectId = require('mongodb').ObjectID;
+const _puppeteer = require('puppeteer');
 
-// const isElementVisible = async (page, cssSelector) => {
-//     let visible = true;
-//     await page
-//         .waitForSelector(cssSelector, { visible: true, timeout: 2000 })
-//         .catch(() => {
-//             visible = false;
-//         });
-//     return visible;
-// };
+function CapturaDeLegendas(app) {
+    this._arquivoUtil = new app.utils.Arquivo(app);
+    this._repositorioLegenda = new app.data.DbConnection("legendas");
+    this.detalhesLegendas = [];
+}
 
-
-// const credenciaisAcesso = {
-    //     usuario: "fliperapp",
-    //     senha: "123456"
-    // };
-    
-
-    
-    
-    
-    // const fs = require('fs');
-
-// fs.writeFile("./credenciais-acesso-legendas.txt", JSON.stringify(encrypt(JSON.stringify(credenciaisAcesso))), function(err) {
-    //     if(err) {
-//         return console.log(err);
-//     }
-//     console.log("The file was saved!");
-// }); 
-
-// Or
-// fs.writeFileSync('/tmp/test-sync', 'Hey there!');
-
-const puppeteer = require('puppeteer');
-const arquivo = require('./utils/Arquivo');
-
-(async () => {
-    let detalhesLegendas = [];
+CapturaDeLegendas.prototype.executa = async function () {
+    console.log('Serviço de captura de legendas iniciado');
 
     let credenciaisAcesso = {};
 
-    credenciaisAcesso = arquivo.visualizaJsonArquivo("./credenciais-acesso-legendas.txt");
+    credenciaisAcesso = this._arquivoUtil.visualizaJsonArquivo("./credenciais-acesso-legendas.txt", true);
 
-    const browser = await puppeteer.launch();
+    const browser = await _puppeteer.launch();
     const page = await browser.newPage();
     await page.goto('http://legendas.tv/');
 
@@ -84,7 +56,6 @@ const arquivo = require('./utils/Arquivo');
 
                 let novasLegendas = [];
 
-                // await links.forEach(async (link) => {
                 for (let i = 0; i < legendas.length; i++) {
                     let legenda = legendas[i];
                     const pageDetalheLegenda = await browser.newPage();
@@ -92,11 +63,17 @@ const arquivo = require('./utils/Arquivo');
 
                     await pageDetalheLegenda.bringToFront();
 
-                    let qtdLikesLegenda = await pageDetalheLegenda.evaluate(() => parseInt(document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(4) > p:nth-child(1)').innerText));
-                    let qtdDeslikesLegenda = await pageDetalheLegenda.evaluate(() => parseInt(document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(4) > p:nth-child(2)').innerText));
-                    let dataString = await pageDetalheLegenda.evaluate(() => document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(2) > p > span.date').innerText);
+                    let qtdLikesLegenda = await pageDetalheLegenda.evaluate(() =>
+                        parseInt(document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(4) > p:nth-child(1)').innerText)
+                    );
 
-                    console.log(await pageDetalheLegenda.evaluate(() => document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > h1').innerText));
+                    let qtdDeslikesLegenda = await pageDetalheLegenda.evaluate(() =>
+                        parseInt(document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(4) > p:nth-child(2)').innerText)
+                    );
+
+                    let dataString = await pageDetalheLegenda.evaluate(() =>
+                        document.querySelector('body > div.container > div.middle.download > section:nth-child(2) > aside:nth-child(2) > p > span.date').innerText
+                    );
 
                     novasLegendas.push(await pageDetalheLegenda.evaluate((qtdLikesLegenda, qtdDeslikesLegenda, dataString, legenda) => {
                         return {
@@ -121,13 +98,10 @@ const arquivo = require('./utils/Arquivo');
 
                     await pageDetalheLegenda.close();
                 }
-                // });
 
                 novasLegendas.forEach(legenda => legenda.dataEnvio = new Date(legenda.dataEnvio.split('/')[1] + "/" + legenda.dataEnvio.split('/')[0] + "/" + legenda.dataEnvio.split('/')[2]));
 
-                detalhesLegendas = detalhesLegendas.concat(novasLegendas);
-
-                console.log(detalhesLegendas)
+                this.detalhesLegendas = this.detalhesLegendas.concat(novasLegendas);
             });
 
         await page.bringToFront();
@@ -141,11 +115,28 @@ const arquivo = require('./utils/Arquivo');
             .catch(() => {
                 botaoVisivel = false;
             });
-
-        // botaoVisivel = await isElementVisible(page, '.load_more');
     }
 
-    console.log('Legendas encontradas: ' + detalhesLegendas.length);
+    this.detalhesLegendas.forEach(detalheLegenda => {
+        this._repositorioLegenda.consultaUnico({ link: detalheLegenda.link }, (result, erro) => {
+            if (erro)
+                console.log(erro);
+            else {
+                if (!result)
+                    this._repositorioLegenda.insere(detalheLegenda);
+                else {
+                    detalheLegenda._id = result._id;
+                    this._repositorioLegenda.atualiza({ _id: mongoDbObjectId(detalheLegenda._id) }, detalheLegenda);
+                }
+            }
+        });
+    });
+
+    console.log('Legendas encontradas: ' + this.detalhesLegendas.length);
 
     await browser.close();
-})();
+};
+
+module.exports = function () {
+    return CapturaDeLegendas;
+};
