@@ -6,7 +6,7 @@ As API's possuem validação por api-key, para fins de teste, apenas a chave '_7
 
 ## Pré-requisitos
 
-Para execução do projeto, é necessário ter o docker instalado na máquina, no Window, basta baixar o Docker Desktop (<https://www.docker.com/products/docker-desktop>) e caso durante a instalação ele aponte que algum recurso esteja faltando, apenas instale-o e prossiga até o final do processo.
+Para execução do projeto, é necessário ter o docker instalado na máquina, no Windows, basta baixar o Docker Desktop (<https://www.docker.com/products/docker-desktop>) e caso durante a instalação ele aponte que algum recurso esteja faltando, apenas instale-o e prossiga até o final do processo.
 
 ## Instalação
 
@@ -31,6 +31,9 @@ Windows:
 
 ## Exemplo de uso
 
-Para execução dos testes é altamente recomendado que seja usado o Postman (<https://www.postman.com/downloads/>). No arquivo /Postman/desafio-crawler-fliper.postman_collection.json está a collection salva de requisições para os métodos da api, para utilizá-lo, é necessário apenas importar o arquivo no Postman.
+Para execução dos testes disponibilizados, é obrigatório o uso do Postman (<https://www.postman.com/downloads/>). No arquivo /Postman/desafio-crawler-fliper.postman_collection.json está a collection salva de requisições para os métodos da api, para utilizá-lo, é necessário apenas importar o arquivo no Postman.
+
+* Tutorial para importação de arquivos no Postman (<https://github.com/eliasnogueira/postman-collection-automacao-testes-api-v1#como-fazer-a-importa%C3%A7%C3%A3o>)
+    * Seguir o segundo método ensinado pelo tutorial.
 
 * Observação: Caso o banco de dados não esteja disponível no momento exato após a instalação e execução do container, basta esperar alguns instantes e verificar novamente.
