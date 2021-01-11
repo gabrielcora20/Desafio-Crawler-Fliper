@@ -24,7 +24,7 @@ Windows:
     ```sh
     cd Desafio-Crawler-Fliper
     ```
-* Execute o script .bat de instalação
+* Execute o script .bat de instalação (caso não funcione via linha de comando, basta entrar na pasta do projeto e executar o arquivo manualmente)
     ```sh
     instalador.bat
     ```
@@ -32,3 +32,5 @@ Windows:
 ## Exemplo de uso
 
 Para execução dos testes é altamente recomendado que seja usado o Postman (<https://www.postman.com/downloads/>). No arquivo /Postman/desafio-crawler-fliper.postman_collection.json está a collection salva de requisições para os métodos da api, para utilizá-lo, é necessário apenas importar o arquivo no Postman.
+
+* Observação: Caso o banco de dados não esteja disponível no momento exato após a instalação e execução do container, basta esperar alguns instantes e verificar novamente.
