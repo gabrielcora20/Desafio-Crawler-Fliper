@@ -4,12 +4,18 @@ function DbConnection(nomeCollection) {
 }
 
 DbConnection.prototype.executaConsulta = function (callback) {
-	this.mongoClient.connect('mongodb://mongo', {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	})
-		.then(conn => callback(conn.db('Desafio_Crawler_Fliper')))
-		.catch(err => console.log(err));
+	if (this.connection && this.connection.isConnected())
+		callback(this.connection.db('Desafio_Crawler_Fliper'));
+	else
+		this.mongoClient.connect('mongodb://mongo', {
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		})
+			.then(conn => {
+				this.connection = conn;
+				callback(this.connection.db('Desafio_Crawler_Fliper'));
+			})
+			.catch(err => console.log(err));
 };
 
 DbConnection.prototype.consultaTodos = function (callback) {
