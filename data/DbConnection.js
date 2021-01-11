@@ -4,7 +4,7 @@ function DbConnection(nomeCollection) {
 }
 
 DbConnection.prototype.executaConsulta = function (callback) {
-	this.mongoClient.connect('mongodb://localhost', {
+	this.mongoClient.connect('mongodb://mongo', {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})

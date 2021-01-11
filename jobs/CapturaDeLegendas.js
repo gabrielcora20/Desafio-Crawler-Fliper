@@ -14,7 +14,7 @@ CapturaDeLegendas.prototype.executa = async function () {
 
     credenciaisAcesso = this._arquivoUtil.visualizaJsonArquivo("./credenciais-acesso-legendas.txt", true);
 
-    const browser = await _puppeteer.launch();
+    const browser = await _puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: true});
     const page = await browser.newPage();
     await page.goto('http://legendas.tv/');
 
