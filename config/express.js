@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const consign = require('consign');
 const cron = require("node-cron");
+const validadorApiKey = require('../middlewares/ValidadorApiKey');
 
 module.exports = () => {
   const app = express();
@@ -11,6 +12,8 @@ module.exports = () => {
 
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+
+  app.use(validadorApiKey);
 
   consign()
     .then('utils')
@@ -21,7 +24,8 @@ module.exports = () => {
     .then('jobs')
     .into(app);
 
-  cron.schedule("*/20 * * * *", () => new app.jobs.CapturaDeLegendas(app).executa());
+  
+  // cron.schedule("*/20 * * * *", () => new app.jobs.CapturaDeLegendas(app).executa());
 
   return app;
 };

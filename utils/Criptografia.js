@@ -19,12 +19,12 @@ Criptografia.prototype.encrypt = function (text) {
     };
 };
 
-Criptografia.prototype.encryptJson = function (text) {
+Criptografia.prototype.encryptJson = function (json) {
     const iv = _crypto.randomBytes(16);
 
     const cipher = _crypto.createCipheriv(this.algorithm, this.secretKey, iv);
 
-    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+    const encrypted = Buffer.concat([cipher.update(JSON.stringify(json)), cipher.final()]);
 
     return JSON.stringify({
         iv: iv.toString('hex'),
