@@ -36,4 +36,6 @@ Para execução dos testes disponibilizados, é obrigatório o uso do Postman (<
 * Tutorial para importação de arquivos no Postman (<https://github.com/eliasnogueira/postman-collection-automacao-testes-api-v1#como-fazer-a-importa%C3%A7%C3%A3o>)
     * Seguir o segundo método ensinado pelo tutorial.
 
-* Observação: Caso o banco de dados não esteja disponível no momento exato após a instalação e execução do container, basta esperar alguns instantes e verificar novamente.
+* Observações 
+    * Caso o banco de dados não esteja disponível no momento exato após a instalação e execução do container, basta esperar alguns instantes e verificar novamente.
+    * No momento em que a aplicação for instalada, o banco de dados não terá nenhum registro. É necessário esperar aproximadamente de 15 a 20 minutos para que o serviço capture os dados e insira-os.
