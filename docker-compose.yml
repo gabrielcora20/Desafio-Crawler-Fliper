@@ -1,0 +1,18 @@
+version: "2"
+services:
+  desafio-crawler:
+    container_name: desafio-crawler
+    image: gabriel-cora/desafio-crawler
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+  mongo:
+    container_name: meu-mongo
+    image: mongo
+    volumes:
+      - ./data_mongo:/data/db
+    ports:
+      - "27017:27017"
