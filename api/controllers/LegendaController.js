@@ -12,8 +12,8 @@ module.exports = (app) => {
     });
   }
 
-  LegendaController.consultaLegenda = (req, res) => {
-    legendaService.obtemLegenda(req.body, (result, erro) => {
+  LegendaController.consultaLegendaPorNome = (req, res) => {
+    legendaService.obtemLegendaPorNome(req.query.nome, (result, erro) => {
       if (erro)
         res.status(500).json(erro);
       else

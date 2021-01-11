@@ -126,7 +126,7 @@ CapturaDeLegendas.prototype.executa = async function () {
                     this._repositorioLegenda.insere(detalheLegenda);
                 else {
                     detalheLegenda._id = result._id;
-                    this._repositorioLegenda.atualiza({ _id: mongoDbObjectId(detalheLegenda._id) }, detalheLegenda);
+                    this._repositorioLegenda.atualiza({ _id: _mongoDbObjectId(detalheLegenda._id) }, detalheLegenda);
                 }
             }
         });

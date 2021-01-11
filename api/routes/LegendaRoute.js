@@ -4,6 +4,6 @@ module.exports = app => {
   app.route('/api/legendas')
     .get(controller.consultaLegendas);
 
-  app.route('/api/legenda')
-    .get(controller.consultaLegenda);
+  app.route('/api/legendaPorNome')
+    .get(controller.consultaLegendaPorNome);
 }

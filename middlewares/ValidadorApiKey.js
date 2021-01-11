@@ -4,5 +4,5 @@ module.exports = function ValidadorApiKey(req, res, next) {
     if (chave == new req.app.utils.Arquivo(req.app).visualizaJsonArquivo('api-keys.txt', true)['x-api-key'])
         next();
     else
-	res.status(401).send("Unauthorized");
+        res.status(401).send("Unauthorized");
 };

@@ -24,7 +24,7 @@ module.exports = () => {
     .then('jobs')
     .into(app);
 
-  new app.jobs.CapturaDeLegendas(app).executa()
+  new app.jobs.CapturaDeLegendas(app).executa();
 
   cron.schedule("*/30 * * * *", () => new app.jobs.CapturaDeLegendas(app).executa()).start();
 

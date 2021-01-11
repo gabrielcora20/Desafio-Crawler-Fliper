@@ -6,16 +6,8 @@ LegendaService.prototype.obtemLegendas = function (callback) {
 	this._repositorioLegenda.consultaTodos(callback);
 }
 
-LegendaService.prototype.obtemLegenda = function (filtro, callback) {
-	this._repositorioLegenda.consultaUnico(filtro, callback);
-}
-
-LegendaService.prototype.verificaExistenciaLegenda = function (filtro, callback) {
-	this._repositorioLegenda.consultaLegendas(filtro, callback).length == 0;
-}
-
-LegendaService.prototype.salvaLegenda = function (legenda, callback) {
-	this._repositorioLegenda.insere(legenda, callback);
+LegendaService.prototype.obtemLegendaPorNome = function (nome, callback) {
+	this._repositorioLegenda.consultaUnico({ nome: nome }, callback);
 }
 
 module.exports = function () {
